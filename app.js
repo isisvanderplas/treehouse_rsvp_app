@@ -16,6 +16,10 @@ form.addEventListener('submit', (event) => {
   label.appendChild(checkbox);
   li.appendChild(label);
   ul.appendChild(li);
+
+  const button = document.createElement('button');
+  button.textContent = 'remove';
+  li.appendChild(button);
 })
 
 ul.addEventListener('change', (event) => {
@@ -27,5 +31,13 @@ ul.addEventListener('change', (event) => {
     listItem.className = 'responded';
   } else {
     listItem.className = '';
+  }
+})
+
+ul.addEventListener('click', (event) => {
+  if (event.target.tagName = "BUTTON") {
+    const listItem = event.target.parentNode;
+    const list = listItem.parentNode;
+    list.removeChild(listItem);
   }
 })
