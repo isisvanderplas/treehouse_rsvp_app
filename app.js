@@ -4,7 +4,9 @@ const ul = document.querySelector('#invitedList');
 
 function createLi(text) {
   const li = document.createElement('li');
-  li.textContent = text;
+  const span = document.createElement('span');
+  span.textContent = text;
+  li.appendChild(span);
   const label = document.createElement('label');
   label.textContent = 'Confirmed';
   const checkbox = document.createElement('input');
@@ -24,7 +26,7 @@ form.addEventListener('submit', (event) => {
   const text = input.value;
   input.value = '';
   event.preventDefault();
-  const li = createLi('text');
+  const li = createLi(text);
   ul.appendChild(li);
   const editButton = createButton('edit');
   editButton.textContent = "Edit";
@@ -47,14 +49,27 @@ ul.addEventListener('change', (event) => {
 })
 
 ul.addEventListener('click', (event) => {
-  if (event.target.tagName === "BUTTON") {
-    const listItem = event.target.parentNode;
+  const button = event.target;
+  if (button.tagName === "BUTTON") {
+    const listItem = button.parentNode;
     const list = listItem.parentNode;
-
-    if (event.target.textContent === "Remove") {
+    if (button.textContent === "Remove") {
       list.removeChild(listItem);
-    } else if (event.target.textContent === "Edit") {
-
+    } else if (button.textContent === "Edit") {
+      const span = listItem.firstElementChild;
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.value = span.textContent;
+      listItem.insertBefore(input, span);
+      listItem.removeChild(span);
+      button.textContent = 'Save';
+    } else if (button.textContent === "Save") {
+      const input = listItem.firstElementChild;
+      const span = document.createElement('span');
+      span.textContent = input.value;
+      listItem.insertBefore(span, input);
+      listItem.removeChild(input);
+      button.textContent = 'Edit';
     }
   }
 })
