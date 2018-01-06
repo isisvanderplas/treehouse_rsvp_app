@@ -2,11 +2,8 @@ const form = document.getElementById('registrar');
 const input = form.querySelector('input');
 const ul = document.querySelector('#invitedList');
 
+function createLi(text) {
 
-form.addEventListener('submit', (event) => {
-  event.preventDefault();
-  const text = input.value;
-  input.value = '';
   const li = document.createElement('li');
   li.textContent = text;
   const label = document.createElement('label');
@@ -15,10 +12,23 @@ form.addEventListener('submit', (event) => {
   checkbox.type = 'checkbox';
   label.appendChild(checkbox);
   li.appendChild(label);
+  return li;
+}
+
+function createButton(text) {
+  const button = document.createElement('button');
+  button.textContent = text;
+  return button;
+}
+
+form.addEventListener('submit', (event) => {
+  const text = input.value;
+  input.value = '';
+  event.preventDefault();
+  const li = createLi('text');
   ul.appendChild(li);
 
-  const button = document.createElement('button');
-  button.textContent = 'remove';
+  const button = createButton('remove');
   li.appendChild(button);
 })
 
@@ -35,7 +45,7 @@ ul.addEventListener('change', (event) => {
 })
 
 ul.addEventListener('click', (event) => {
-  if (event.target.tagName = "BUTTON") {
+  if (event.target.tagName === "BUTTON") {
     const listItem = event.target.parentNode;
     const list = listItem.parentNode;
     list.removeChild(listItem);
