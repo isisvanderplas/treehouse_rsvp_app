@@ -3,7 +3,6 @@ const input = form.querySelector('input');
 const ul = document.querySelector('#invitedList');
 
 function createLi(text) {
-
   const li = document.createElement('li');
   li.textContent = text;
   const label = document.createElement('label');
@@ -27,9 +26,12 @@ form.addEventListener('submit', (event) => {
   event.preventDefault();
   const li = createLi('text');
   ul.appendChild(li);
-
-  const button = createButton('remove');
-  li.appendChild(button);
+  const editButton = createButton('edit');
+  editButton.textContent = "Edit";
+  li.appendChild(editButton);
+  const deleteButton = createButton('remove');
+  deleteButton.textContent = "Remove";
+  li.appendChild(deleteButton);
 })
 
 ul.addEventListener('change', (event) => {
@@ -48,6 +50,11 @@ ul.addEventListener('click', (event) => {
   if (event.target.tagName === "BUTTON") {
     const listItem = event.target.parentNode;
     const list = listItem.parentNode;
-    list.removeChild(listItem);
+
+    if (event.target.textContent === "Remove") {
+      list.removeChild(listItem);
+    } else if (event.target.textContent === "Edit") {
+
+    }
   }
 })
