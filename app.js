@@ -1,7 +1,12 @@
 const form = document.getElementById('registrar');
-const input = form.querySelector('input')
+const input = form.querySelector('input');
+
 
 form.addEventListener('submit', (event) => {
-  console.log(input.value);
   event.preventDefault();
+  const text = input.value;
+  const ul = document.querySelector('#invitedList');
+  const li = document.createElement('li');
+  li.textContent = text;
+  ul.appendChild(li);
 })
