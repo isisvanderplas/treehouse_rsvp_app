@@ -53,16 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
     appendToLI('span', 'textContent', text);
     appendToLI('label', 'textContent', 'Confirmed')
       .appendChild(createElement('input', 'type', 'checkbox'));
-    appendToLI('button', 'textContent', 'Edit');
-    appendToLI('button', 'textContent', 'Remove');
+    appendToLI('button', 'textContent', 'edit');
+    appendToLI('button', 'textContent', 'remove');
     return li;
   }
-
-  // function createButton(text) {
-  //   const button = document.createElement('button');
-  //   button.textContent = text;
-  //   return button;
-  // }
 
   form.addEventListener('submit', (event) => {
     const text = input.value;
@@ -70,12 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
     event.preventDefault();
     const li = createLi(text);
     ul.appendChild(li);
-    // const editButton = createButton('edit');
-    // editButton.textContent = "Edit";
-    // li.appendChild(editButton);
-    // const deleteButton = createButton('remove');
-    // deleteButton.textContent = "Remove";
-    // li.appendChild(deleteButton);
   })
 
   ul.addEventListener('change', (event) => {
@@ -95,24 +83,32 @@ document.addEventListener('DOMContentLoaded', () => {
     if (button.tagName.toUpperCase() === "BUTTON") {
       const listItem = button.parentNode;
       const list = listItem.parentNode;
-      if (button.textContent === "Remove") {
-        list.removeChild(listItem);
-      } else if (button.textContent === "Edit") {
-        const span = listItem.firstElementChild;
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.value = span.textContent;
-        listItem.insertBefore(input, span);
-        listItem.removeChild(span);
-        button.textContent = 'Save';
-      } else if (button.textContent === "Save") {
-        const input = listItem.firstElementChild;
-        const span = document.createElement('span');
-        span.textContent = input.value;
-        listItem.insertBefore(span, input);
-        listItem.removeChild(input);
-        button.textContent = 'Edit';
+      const action = button.textContent;
+      const nameActions = {
+        remove: () => {
+          list.removeChild(listItem);
+        },
+        edit: () => {
+          const span = listItem.firstElementChild;
+          const input = document.createElement('input');
+          input.type = 'text';
+          input.value = span.textContent;
+          listItem.insertBefore(input, span);
+          listItem.removeChild(span);
+          button.textContent = 'save';
+        },
+        save: () => {
+          const input = listItem.firstElementChild;
+          const span = document.createElement('span');
+          span.textContent = input.value;
+          listItem.insertBefore(span, input);
+          listItem.removeChild(input);
+          button.textContent = 'edit';
+        }
       }
+
+      nameActions[action]()
+
     }
   })
 })
